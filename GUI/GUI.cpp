@@ -14,7 +14,7 @@ GUI::GUI()
 	
 	UI.StatusBarHeight = 50;
 	UI.ToolBarHeight = 50;
-	UI.MenuItemWidth = 60;
+	UI.MenuItemWidth = 65;
 	
 	UI.DrawColor = BLUE;	//Drawing color
 	UI.FillColor = GREEN;	//Filling color
@@ -248,7 +248,7 @@ void GUI::CreateDrawToolBar() const
 	MenuItemImages[ITM_BG_COLOR_CHANGE] = "images\\MenuItems\\BGC.jpg";
 	MenuItemImages[ITM_CHNG_DRAW_COLOR] = "images\\MenuItems\\DrawColorIcon.jpg";
 	MenuItemImages[ITM_FILL_COLOR] = "images\\MenuItems\\FillColor.jpg";
-	MenuItemImages[ITM_PLAY] = "images\\MenuItems\\index.jpg";
+	MenuItemImages[ITM_PLAY] = "images\\MenuItems\\PlayMode.jpg";
 	MenuItemImages[ITM_SAVE] = "images\\MenuItems\\Save.jpg";
 	MenuItemImages[ITM_LOAD] = "images\\MenuItems\\load.jpg";
 	MenuItemImages[ITM_RESIZE] = "images\\MenuItems\\Resize.jpg";
@@ -329,7 +329,7 @@ void GUI::CreateResizeToolBar() const
 	MenuItemImages[ITM_QUARTER] = "images\\MenuItems\\QX.jpg";
 	MenuItemImages[ITM_DOUBLE] = "images\\MenuItems\\X2.jpg";
 	MenuItemImages[ITM_QUADRUPLE] = "images\\MenuItems\\X4.jpg";
-	MenuItemImages[ITM_BACK2] = "images\\MenuItems\\BackToDraw.jpg";
+	MenuItemImages[ITM_BACK2] = "images\\MenuItems\\back.jpg";
 
 	for (int i = 0; i < SIZE_ITM_COUNT; i++)
 		for (int i = 0; i < SIZE_ITM_COUNT; i++)
