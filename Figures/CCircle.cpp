@@ -74,3 +74,33 @@ void CCircle::Load(ifstream& Infile)
 	this->Selected = false;
 	this->FigGfxInfo.BorderWdth = 3;
 }
+CFigure* CCircle::Clone()
+{
+	return new CCircle(*this);
+}
+
+string CCircle::getShapeType()
+{
+	return "Circle";
+}
+
+void CCircle::Resize(GUI* pGUI, float size) {
+	Point test1 = center;
+
+	if (test1.y + radius < UI.ToolBarHeight || test1.x + radius < 1)
+	{
+		pGUI->PrintMessage("circle size will be more than Drawing Area");
+		Sleep(1000);
+	}
+	else if (((test1.x + radius) / 2) < 15 || ((test1.y + radius) / 2) < 10)
+	{
+		pGUI->PrintMessage("circle size will be very small");
+		Sleep(1000);
+	}
+	else {
+
+		this->radius = this->radius * size;
+	}
+
+
+}

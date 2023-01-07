@@ -11,7 +11,8 @@ enum GUI_MODE	//Graphical user interface mode
 {
 	MODE_DRAW,	//Drawing mode (startup mode)
 	MODE_PLAY,	//Play mody
-	MODE_COLOR	//Color Mode mode
+	MODE_COLOR,	//Color Mode 
+	MODE_SIZE // Resize Mode
 };
 
 enum DrawMenuItem //The items of the Draw menu (you should add more items)
@@ -32,6 +33,8 @@ enum DrawMenuItem //The items of the Draw menu (you should add more items)
 	ITM_FILL_COLOR,	// Fill Color item in menu
 	ITM_SAVE,
 	ITM_LOAD,
+	ITM_PLAY,
+	ITM_RESIZE,
 	//TODO: Add more items names here
 
 	ITM_EXIT,		//Exit item
@@ -42,13 +45,14 @@ enum DrawMenuItem //The items of the Draw menu (you should add more items)
 
 enum PlayMenuItem //The items of the Play menu (you should add more items)
 {
-	//Note: Items are ordered here as they appear in menu
-	//If you want to change the menu items order, change the order here
-	
-	//TODO: Add more items names here
 
+	PLAY_TYPE,
+	PLAY_FILL,
+	PLAY_TYPEFILL,
+	PLAY_RESET,
+	PLAY_BACK,
 	PLAY_ITM_COUNT		//no. of menu items ==> This should be the last line in this enum
-	
+
 };
 
 enum ColorMenuItem //The items of the Color menu (you should add more items)
@@ -67,6 +71,17 @@ enum ColorMenuItem //The items of the Color menu (you should add more items)
 
 };
 
+enum SizeMenuItem // The items of colors
+{
+	ITM_QUARTER,
+	ITM_HALF,
+	ITM_DOUBLE,
+	ITM_QUADRUPLE,
+
+	ITM_BACK2,
+
+	SIZE_ITM_COUNT
+};
 
 
 __declspec(selectany) //This line to prevent "redefinition error"

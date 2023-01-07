@@ -13,6 +13,17 @@
 #include "Actions\ActionChangeFillColor.h"
 #include "Actions\ActionSave.h"
 #include "Actions\ActionLoad.h"
+#include "Actions\ActionToDraw.h"
+#include "Actions\ActionToPlay.h"
+#include "Actions\ActionPlayByFill.h"
+#include "Actions\ActionPlayByType.h"
+#include "Actions\ActionNewGame.h"
+#include "Actions\ActionPlayByFILLTYPE.h"
+#include "Actions\ActionExit.h"
+#include "Actions\ActionResize.h"
+#include "Actions\ActionSwitchToDrawMode.h"
+#include "Figures\CFigure.h"
+#include "Helpers.h"
 #include <string>
 #include <string.h>
 #include <iostream>
@@ -123,12 +134,33 @@ Action* ApplicationManager::CreateAction(ActionType ActType)
 		case LOAD:
 			newAct = new ActionLoad(this);
 			break;
-
-		case EXIT:
-			///create ExitAction here
-			
+		case ACTION_TO_PLAY:
+			newAct = new ActionToPlay(this);
 			break;
-		
+		case ACTION_TO_DRAW:
+			newAct = new ActionToDraw(this);
+			break;
+		case ACTION_PLAY_TYPE:
+			newAct = new ActionPlayByType(this);
+			break;
+		case ACTION_PLAY_RESET:
+			newAct = new ActionNewGame(this);
+			break;
+		case ACTION_PLAY_FILL:
+			newAct = new ActionPlayByFill(this);
+			break;
+		case ACTION_PLAY_TYPEFILL:
+			newAct = new ActionPlayByFILLTYPE(this);
+			break;
+		case RESIZE:
+			newAct = new ActionResize(this, selectedfigure);
+			break;
+		case GO_BACK:
+			newAct = new ActionSwitchToDrawMode(this);
+			break;
+		case EXIT:
+			newAct = new ActionExit(this);
+			break;
 		case STATUS:	//a click on the status bar ==> no action
 			return NULL;
 			break;
@@ -191,7 +223,6 @@ void ApplicationManager::UpdateInterface() const
 	for(int i=0; i<FigCount; i++)
 		FigList[i]->DrawMe(pGUI);		//Call Draw function (virtual member fn)
 
-  	pGUI->CreateDrawToolBar();  //To Remove the Drawing from the toolbar
 	pGUI->CreateColorBar();
 	pGUI->CreateStatusBar();
 }
@@ -450,4 +481,203 @@ void ApplicationManager::deleteALLFig()
 color ApplicationManager::stringToColor(string)
 {
 	return color();
+}
+
+//==================================================================================//
+//									Play Mode										//
+//==================================================================================//
+void ApplicationManager::backupFigList()
+{
+	for (int i = 0; i < FigCount; i++) {
+		FigListBackup[i] = FigList[i]->Clone();
+	}
+	FigCountBackup = FigCount;
+}
+void ApplicationManager::restoreFigList()
+{
+	for (int i = 0; i < FigCountBackup; i++) {
+		FigList[i] = FigListBackup[i]->Clone();
+	}
+	FigCount = FigCountBackup;
+	UpdateInterface();
+
+}
+
+void ApplicationManager::clearFigListBackup() {
+	for (int i = 0; i < FigCountBackup; i++) {
+		delete FigListBackup[i];
+	}
+	FigCountBackup = 0;
+
+}
+int ApplicationManager::numberOfShapes()
+{
+	return FigCount;
+}
+
+
+int ApplicationManager::countByType(string type) {
+	int count = 0;
+	for (int i = 0; i < FigCount; i++)
+		if (FigList[i]->getShapeType() == type)
+			count++;
+	return count;
+}
+
+int ApplicationManager::countByColor(string color) {
+	int count = 0;
+	for (int i = 0; i < FigCount; i++)
+		if (getColorName(FigList[i]->getFillColor()) == color)
+			count++;
+	return count;
+}
+
+
+int ApplicationManager::countByTypeAndColor(string type, string color) {
+	int count = 0;
+	for (int i = 0; i < FigCount; i++)
+		if (FigList[i]->getShapeType() == type && getColorName(FigList[i]->getFillColor()) == color)
+			count++;
+	return count;
+}
+
+
+
+
+int ApplicationManager::getFigCount() const
+{
+	return FigCount;
+
+}
+
+string ApplicationManager::getRandomExistingColor()
+{
+	//generating Random index 
+	int RandomIndex = rand() % FigCount;
+
+	color tempClr = FigList[RandomIndex]->getFillColor();
+
+	return getColorName(tempClr);
+
+}
+
+
+void ApplicationManager::getRandomColorAndType(string& type, string& color)
+{
+	//generating Random index
+	int RandomIndex = rand() % FigCount;
+	type = FigList[RandomIndex]->getShapeType();
+	color = getColorName(FigList[RandomIndex]->getFillColor());
+}
+
+//==================================================================================//
+//							For Single Figure Deleted								//
+//==================================================================================//
+void ApplicationManager::singleFigureDeleted()
+{
+	for (int i = 0; i < FigCount; i++)
+	{
+		if (FigList[i]->IsSelected())
+		{
+			delete FigList[i];
+			FigList[i] = NULL;
+			FigCount--;
+			shiftFigList(i);
+			break;
+		}
+	}
+}
+
+
+//==================================================================================//
+//			  to shift all next item in FigList and remove null items				//
+//==================================================================================//
+void ApplicationManager::shiftFigList(int _figCount)
+{
+	for (int j = _figCount; j < FigCount; j++)
+	{
+		FigList[j] = FigList[j + 1];
+	}
+}
+
+
+void ApplicationManager::UnselectAll()
+{
+	for (int i = 0; i < FigCount; i++)
+		FigList[i]->SetSelected(false);		//Call Draw function (virtual member fn)
+}
+string ApplicationManager::getRandomExistingType()
+{
+	//generating Random index 
+	int RandomIndex = rand() % FigCount;
+	return FigList[RandomIndex]->getShapeType();
+}
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+color ApplicationManager::getColorFromString(string s)
+{
+	if (s == "GREEN")
+		return GREEN;
+	if (s == "BLUE")
+		return BLUE;
+	if (s == "WHITE")
+		return WHITE;
+	if (s == "PINK")
+		return PINK;
+	if (s == "YELLOW")
+		return YELLOW;
+	if (s == "ORANGE")
+		return ORANGE;
+	if (s == "MAROON")
+		return MAROON;
+	if (s == "PURPLE")
+		return PURPLE;
+	return BLACK;
+}
+
+string ApplicationManager::getColorName(color c)
+{
+	if ((c.ucBlue == BLACK.ucBlue) && (c.ucGreen == BLACK.ucGreen) && (c.ucRed == BLACK.ucRed))
+		return "BLACK";
+	if ((c.ucBlue == PINK.ucBlue) && (c.ucGreen == PINK.ucGreen) && (c.ucRed == PINK.ucRed))
+		return "PINK";
+	if ((c.ucBlue == LIGHTBLUE.ucBlue) && (c.ucGreen == LIGHTBLUE.ucGreen) && (c.ucRed == LIGHTBLUE.ucRed))
+		return "LIGHTBLUE";
+	if ((c.ucBlue == MAROON.ucBlue) && (c.ucGreen == MAROON.ucGreen) && (c.ucRed == MAROON.ucRed))
+		return "MAROON";
+	if ((c.ucBlue == ORANGE.ucBlue) && (c.ucGreen == ORANGE.ucGreen) && (c.ucRed == ORANGE.ucRed))
+		return "ORANGE";
+	if ((c.ucBlue == BLUE.ucBlue) && (c.ucGreen == BLUE.ucGreen) && (c.ucRed == BLUE.ucRed))
+		return "BLUE";
+	if ((c.ucBlue == WHITE.ucBlue) && (c.ucGreen == WHITE.ucGreen) && (c.ucRed == WHITE.ucRed))
+		return "WHITE";
+	if ((c.ucBlue == RED.ucBlue) && (c.ucGreen == RED.ucGreen) && (c.ucRed == RED.ucRed))
+		return "RED";
+	if ((c.ucBlue == YELLOW.ucBlue) && (c.ucGreen == YELLOW.ucGreen) && (c.ucRed == YELLOW.ucRed))
+		return "YELLOW";
+	if ((c.ucBlue == GREEN.ucBlue) && (c.ucGreen == GREEN.ucGreen) && (c.ucRed == GREEN.ucRed))
+		return "GREEN";	
+	return "NO-FILL";
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//                                 Resize Functions							//
+//////////////////////////////////////////////////////////////////////////////
+
+
+int ApplicationManager::getSelectedFigure()
+{
+
+	for (int i = 0; i < FigCount; i++)
+		if (FigList[i]->IsSelected())
+			return i;
+	return -1;
+}
+CFigure* ApplicationManager::GetSelectedFigure() const
+{
+	//check if a figure selected
+	for (int i = (FigCount - 1); i >= 0; i--) {
+		if (FigList[i]->IsSelected()) return FigList[i];
+	}
+	return NULL;
 }

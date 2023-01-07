@@ -26,20 +26,6 @@ public:
 	void ChngFillClr(color Fclr);	//changes the figure's filling color
 	virtual bool insideFigure(int, int) = 0; // select
 
-	///The following functions should be supported by the figure class
-	///It should be overridden by each inherited figure
-
-	///Decide the parameters that you should pass to each function	
-	
-	//virtual void Rotate() = 0;	//Rotate the figure
-	//virtual void Resize() = 0;	//Resize the figure
-	//virtual void Move() = 0;		//Move the figure
-
-	//virtual void Save(ofstream &OutFile) = 0;	//Save the figure parameters to the file
-	//virtual void Load(ifstream &Infile) = 0;	//Load the figure parameters to the file
-
-	//virtual void PrintInfo(Output* pOut) = 0;	//print all figure info on the status bar
-
 	//ID Setter / Getter
 	int CFigure::GetID() const;
 	color StringToColor(string s);
@@ -47,7 +33,10 @@ public:
 	void CFigure::SetID(int id);
 	virtual void Save(ofstream &OutFile) = 0;	//Save the figure parameters to the file
 	virtual void Load(ifstream &Infile) = 0;	//Load the figure parameters to the file
-
+	virtual string getShapeType() = 0;  // to get type of the shape
+	virtual CFigure* Clone() = 0;
+	 color getFillColor();
+	 virtual void Resize(GUI* pGUI, float size) = 0;
 };
 
 #endif

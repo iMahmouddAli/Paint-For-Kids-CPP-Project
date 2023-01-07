@@ -30,5 +30,6 @@ void ActionChangeFillColor::Execute() {
 			pGUI->setCrntFillColor(FillClr);
 		}
 	}
+	pGUI->CreateDrawToolBar();
 }
 

@@ -21,7 +21,8 @@ private:
 	int selectedCount;					//Number of selected figures
 	CFigure* SelectedFigures[MaxFigCount];	//List of all selected figures
 
-
+	int FigCountBackup;		//Actual number of figures
+	CFigure* FigListBackup[MaxFigCount];	//Clone version of FigList (Array of pointers)
 	CFigure* selectedfigure; //The Selected Figure
 
 	//Pointers to Input and Output classes
@@ -59,7 +60,7 @@ public:
 	void RemoveSelectedFigure(CFigure* sf);
 	void setselectedfigure(CFigure* pFig);
 	CFigure* getselectedfigure() const;
-
+	void UnselectAll();
 
 	//Delete Functions 
 	void ApplicationManager::RemoveFig(int ID);
@@ -77,6 +78,28 @@ public:
 	void ApplicationManager::SaveFile(ofstream& outputfile);
 	void ApplicationManager::deleteALLFig();
 	color ApplicationManager::stringToColor(string);
+
+
+
+	//play mode functions
+	void ApplicationManager::backupFigList();
+	void ApplicationManager::restoreFigList();
+	void ApplicationManager::clearFigListBackup();
+	int ApplicationManager::numberOfShapes();
+	int ApplicationManager::countByType(string type);
+	int ApplicationManager::countByColor(string color);
+	string ApplicationManager::getRandomExistingType();
+	int ApplicationManager::getFigCount() const;
+	string ApplicationManager::getRandomExistingColor();
+	void ApplicationManager::singleFigureDeleted();
+	void ApplicationManager::shiftFigList(int _figCount);
+	int ApplicationManager::countByTypeAndColor(string type, string color);
+	void ApplicationManager::getRandomColorAndType(string& type, string& color);
+
+	color getColorFromString(string s);
+	string getColorName(color c);
+	int getSelectedFigure();
+	CFigure* GetSelectedFigure() const;
 };
 
 #endif

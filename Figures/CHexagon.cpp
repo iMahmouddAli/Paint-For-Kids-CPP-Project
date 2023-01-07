@@ -6,6 +6,8 @@ CHexagon::CHexagon(Point P1, Point P2, GfxInfo FigureGfxInfo) :CFigure(FigureGfx
 {
 	TopLeftCorner = P1;
 	BottomRightCorner = P2;
+	VerticalLen = abs(P1.y - P2.y);
+	HorizentalLen = abs(P1.x - P2.x);
 	ID = newID++;
 
 }
@@ -78,4 +80,40 @@ void CHexagon::Load(ifstream& file)
 	}
 	this->Selected = false;
 	this->FigGfxInfo.BorderWdth = 3;
+}
+
+CFigure* CHexagon::Clone()
+{
+	return new CHexagon(*this);
+}
+
+string CHexagon::getShapeType()
+{
+	return "Hexagon";
+}
+
+void CHexagon::Resize(GUI* pGUI, float size) {
+
+	float length_test = HorizentalLen * size;
+	float height_test = VerticalLen * size;
+	if ((TopLeftCorner.y + height_test) > UI.height - UI.StatusBarHeight
+		|| (TopLeftCorner.x + length_test * 1.5) > UI.width
+		|| (TopLeftCorner.x - length_test * 0.5) < 1)
+	{
+		pGUI->PrintMessage("Hexagon size will be more than Drawing Area");
+		Sleep(1000);
+	}
+	else if (length_test < 20 || height_test < 20)
+	{
+		pGUI->PrintMessage("Hexagon size will be very small");
+		Sleep(1000);
+	}
+	else
+	{
+		HorizentalLen = length_test;
+		VerticalLen = height_test;
+		BottomRightCorner.x = TopLeftCorner.x + HorizentalLen;
+		BottomRightCorner.y = TopLeftCorner.y + VerticalLen;
+	}
+
 }

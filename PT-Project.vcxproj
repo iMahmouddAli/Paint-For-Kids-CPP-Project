@@ -138,10 +138,19 @@
     <ClCompile Include="Actions\ActionChangeDrawColor.cpp" />
     <ClCompile Include="Actions\ActionChangeFillColor.cpp" />
     <ClCompile Include="Actions\ActionDelete.cpp" />
+    <ClCompile Include="Actions\ActionExit.cpp" />
     <ClCompile Include="Actions\ActionLoad.cpp" />
+    <ClCompile Include="Actions\ActionNewGame.cpp" />
+    <ClCompile Include="Actions\ActionPlayByFill.cpp" />
+    <ClCompile Include="Actions\ActionPlayByFILLTYPE.cpp" />
+    <ClCompile Include="Actions\ActionPlayByType.cpp" />
+    <ClCompile Include="Actions\ActionResize.cpp" />
     <ClCompile Include="Actions\ActionSave.cpp" />
     <ClCompile Include="Actions\ActionSelect.cpp" />
     <ClCompile Include="Actions\ActionSendToBack.cpp" />
+    <ClCompile Include="Actions\ActionSwitchToDrawMode.cpp" />
+    <ClCompile Include="Actions\ActionToDraw.cpp" />
+    <ClCompile Include="Actions\ActionToPlay.cpp" />
     <ClCompile Include="CMUgraphicsLib\auxil.cpp" />
     <ClCompile Include="CMUgraphicsLib\CMUgraphics.cpp" />
     <ClCompile Include="CMUgraphicsLib\image.cpp" />
@@ -199,10 +208,19 @@
     <ClInclude Include="Actions\ActionChangeDrawColor.h" />
     <ClInclude Include="Actions\ActionChangeFillColor.h" />
     <ClInclude Include="Actions\ActionDelete.h" />
+    <ClInclude Include="Actions\ActionExit.h" />
     <ClInclude Include="Actions\ActionLoad.h" />
+    <ClInclude Include="Actions\ActionNewGame.h" />
+    <ClInclude Include="Actions\ActionPlayByFill.h" />
+    <ClInclude Include="Actions\ActionPlayByFILLTYPE.h" />
+    <ClInclude Include="Actions\ActionPlayByType.h" />
+    <ClInclude Include="Actions\ActionResize.h" />
     <ClInclude Include="Actions\ActionSave.h" />
     <ClInclude Include="Actions\ActionSelect.h" />
     <ClInclude Include="Actions\ActionSendToBack.h" />
+    <ClInclude Include="Actions\ActionSwitchToDrawMode.h" />
+    <ClInclude Include="Actions\ActionToDraw.h" />
+    <ClInclude Include="Actions\ActionToPlay.h" />
     <ClInclude Include="CMUgraphicsLib\auxil.h" />
     <ClInclude Include="CMUgraphicsLib\CMUgraphics.h" />
     <ClInclude Include="CMUgraphicsLib\colors.h" />
@@ -234,6 +252,7 @@
     <ClInclude Include="GUI\UI_Info.h" />
     <ClInclude Include="ApplicationManager.h" />
     <ClInclude Include="DEFS.h" />
+    <ClInclude Include="Helpers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

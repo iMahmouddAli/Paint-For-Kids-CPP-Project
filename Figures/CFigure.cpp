@@ -57,14 +57,6 @@ color CFigure::StringToColor(string s) {
         return MAROON;
     if (s == "PURPLE")
         return PURPLE;
-    if (s == "TURQUOISE")
-        return TURQUOISE;
-    if (s == "SKYBLUE")
-        return SKYBLUE;
-    if (s == "LIGHTBLUE")
-        return LIGHTBLUE;
-    if (s == "IVORY")
-        return IVORY;
     return BLACK;
 }
 
@@ -84,25 +76,16 @@ string CFigure::ColorToString(color c)
         return "BLUE";
     if ((c.ucBlue == WHITE.ucBlue) && (c.ucGreen == WHITE.ucGreen) && (c.ucRed == WHITE.ucRed))
         return "WHITE";
-    if ((c.ucBlue == RED.ucBlue) && (c.ucGreen == RED.ucGreen) && (c.ucRed == RED.ucRed))
-        return "RED";
     if ((c.ucBlue == YELLOW.ucBlue) && (c.ucGreen == YELLOW.ucGreen) && (c.ucRed == YELLOW.ucRed))
         return "YELLOW";
     if ((c.ucBlue == GREEN.ucBlue) && (c.ucGreen == GREEN.ucGreen) && (c.ucRed == GREEN.ucRed))
         return "GREEN";
-    if ((c.ucBlue == LIGHTGOLDENRODYELLOW.ucBlue) && (c.ucGreen == LIGHTGOLDENRODYELLOW.ucGreen) && (c.ucRed == LIGHTGOLDENRODYELLOW.ucRed))
-        return "LIGHTGOLDENRODYELLOW";
-    if ((c.ucBlue == MAGENTA.ucBlue) && (c.ucGreen == MAGENTA.ucGreen) && (c.ucRed == MAGENTA.ucRed))
-        return "MAGENTA";
-    if ((c.ucBlue == TURQUOISE.ucBlue) && (c.ucGreen == TURQUOISE.ucGreen) && (c.ucRed == TURQUOISE.ucRed))
-        return "TURQUOISE";
-    if ((c.ucBlue == SKYBLUE.ucBlue) && (c.ucGreen == SKYBLUE.ucGreen) && (c.ucRed == SKYBLUE.ucRed))
-        return "SKYBLUE";
-    if ((c.ucBlue == LIGHTSTEELBLUE.ucBlue) && (c.ucGreen == LIGHTSTEELBLUE.ucGreen) && (c.ucRed == LIGHTSTEELBLUE.ucRed))
-        return "LIGHTSTEELBLUE";
-    if ((c.ucBlue == IVORY.ucBlue) && (c.ucGreen == IVORY.ucGreen) && (c.ucRed == IVORY.ucRed))
-        return"IVORY";
     return "NO-FILL";
 
+}
+
+color CFigure::getFillColor()
+{
+    return FigGfxInfo.isFilled ? FigGfxInfo.FillClr : NULL;
 }
 

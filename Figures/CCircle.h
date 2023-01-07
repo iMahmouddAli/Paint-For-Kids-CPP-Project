@@ -15,6 +15,9 @@ public:
 	bool insideFigure(int x, int y);
 	void Save(ofstream& OutFile);
 	void Load(ifstream& Infile);
+	CFigure* Clone();
+	string getShapeType();
+	virtual void Resize(GUI* pGUI, float size);
 };
 
 #endif

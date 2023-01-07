@@ -28,7 +28,8 @@ void ActionLoad::Execute()
 	FileName = pGUI->GetSrting();
 
 
-	File.open(FileName + ".txt");
+	
+	File.open("saved_Drawing_files/" + FileName + ".txt");
 
 
 	if (File.fail())
@@ -43,9 +44,12 @@ void ActionLoad::Execute()
 	color drawClr(r, g, b);
 	File >> r >> g >> b;
 	color FillClr(r, g, b);
-
 	File >> r >> g >> b;
 	color bkgclr(r, g, b);
+
+	pGUI->setCrntDrawColor(drawClr);
+	pGUI->setCrntFillColor(FillClr);
+	pGUI->setCrntBKGrandColor(bkgclr);
 	File >> figcount;
 
 	while (figcount)
@@ -82,6 +86,6 @@ void ActionLoad::Execute()
 		figcount--;
 	}
 	pManager->UpdateInterface();    //draw the figure list
-	pGUI->PrintMessage("Done successfully..");
+	pGUI->PrintMessage("File Loaded.. ^_^");
 	pGUI->ClearStatusBar();
 }

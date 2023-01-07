@@ -34,7 +34,21 @@ enum ActionType //The actions supported (you can add more if needed)
 
 	TO_DRAW,		//Switch interface to Draw mode
 	TO_PLAY,			//Switch interface to Play mode
+	ACTION_PLAY_TYPE,		// pick by type
+	ACTION_PLAY_FILL,		// pic by fill color
+	ACTION_PLAY_TYPEFILL,	// pic by type and fill color 
+	ACTION_PLAY_RESET,		// restart the game
+	ACTION_TO_DRAW, //Switch interface to Draw mode
 
+	TO_SIZE,
+	HALF,
+	QUARTER,
+	DOUBLE1,
+	QUADRUPLE,
+	BACK2,
+	GO_BACK,
+
+	ACTION_TO_PLAY,		//Switch interface to Play mode
 	SET_RED,		//pick red color
 	SET_GREEN,		//pick green color
 	SET_BLUE,		//pick blue color

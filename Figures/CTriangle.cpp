@@ -76,3 +76,54 @@ void CTriangle::Load(ifstream& file)
 	this->Selected = false;
 	this->FigGfxInfo.BorderWdth = 3;
 }
+
+CFigure* CTriangle::Clone()
+{
+	return new CTriangle(*this);
+}
+
+string CTriangle::getShapeType()
+{
+	return "Triangle";
+}
+
+void CTriangle::Resize(GUI* pGUI, float size)
+{
+	if (size == 0.5) size = -1;
+	else if (size == 0.25) size = -(4.0 / 3);
+
+	Point O;
+	O.x = (P1.x + P2.x + P3.x) / 3;
+	O.y = (P1.y + P2.y + P3.y) / 3;
+	if (P1.x <= O.x)
+		P1.x -= (O.x - P1.x) * size / 2;
+	else
+		P1.x += (P1.x - O.x) * size / 2;
+
+	if (P2.x <= O.x)
+		P2.x -= (O.x - P2.x) * size / 2;
+	else
+		P2.x += (P2.x - O.x) * size / 2;
+
+	if (P3.x <= O.x)
+		P3.x -= (O.x - P3.x) * size / 2;
+	else
+		P3.x += (P3.x - O.x) * size / 2;
+
+	if (P1.y <= O.y)
+		P1.y -= (O.y - P1.y) * size / 2;
+	else
+		P1.y += (P1.y - O.y) * size / 2;
+
+	if (P2.y <= O.y)
+		P2.y -= (O.y - P2.y) * size / 2;
+	else
+		P2.y += (P2.y - O.y) * size / 2;
+
+	if (P3.y <= O.y)
+		P3.y -= (O.y - P3.y) * size / 2;
+	else
+		P3.y += (P3.y - O.y) * size / 2;
+
+
+}

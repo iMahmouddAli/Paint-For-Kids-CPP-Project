@@ -62,3 +62,33 @@ void CSquare::Load(ifstream& file)
 	this->Selected = false;
 	this->FigGfxInfo.BorderWdth = 3;
 }
+
+CFigure* CSquare::Clone()
+{
+	return new CSquare(*this);
+}
+
+string CSquare::getShapeType()
+{
+	return "Square";
+}
+
+void CSquare::Resize(GUI* pGUI, float size) {
+	Point test1 = TopLeftCorner;
+
+	if (test1.y < UI.ToolBarHeight || test1.x > UI.width)
+	{
+		pGUI->PrintMessage("square size will be more than Drawing Area");
+		Sleep(1000);
+	}
+	else if (((test1.x - length) / 2) < 15 || ((test1.y - length) / 2) < 10)
+	{
+		pGUI->PrintMessage("square size will be very small");
+		Sleep(1000);
+	}
+
+	this->length = this->length * size;
+
+
+
+}

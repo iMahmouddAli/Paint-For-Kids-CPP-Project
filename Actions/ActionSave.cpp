@@ -14,11 +14,11 @@ void ActionSave::Execute()
 {
 
     GUI* pGUI = pManager->GetGUI();
-    pGUI->PrintMessage("PLZ enter file name");
+    pGUI->PrintMessage("Enter a Valid Name For the file then press Enter.. ^_^");
     fileName = pGUI->GetSrting();
     ofstream savedFile;
 
-    savedFile.open((fileName + ".txt"), ios::out);
+    savedFile.open(("saved_Drawing_files/" + fileName + ".txt"), ios::out);
 
 
     bool flag = false;
@@ -29,7 +29,7 @@ void ActionSave::Execute()
 
     while (flag)
     {
-        pGUI->PrintMessage("Please write a valid name then press ENTER");
+        pGUI->PrintMessage("Enter a Valid Name For the file then press Enter.. ^_^");
         fileName = pGUI->GetSrting();
         savedFile.open(fileName + ".txt", ios::out);
         if (savedFile.good())//true if i opened file
@@ -44,13 +44,6 @@ void ActionSave::Execute()
     savedFile << "\n" << count << "\n";
     pManager->SaveFile(savedFile);
     savedFile.close();
-    pGUI->PrintMessage("Your data has been seved successfully...");
-
-
-
-
-
-
-
+    pGUI->PrintMessage("You Drawing in a Good Hand Don't Worry ..^_^");
 
 }

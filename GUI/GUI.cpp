@@ -14,7 +14,7 @@ GUI::GUI()
 	
 	UI.StatusBarHeight = 50;
 	UI.ToolBarHeight = 50;
-	UI.MenuItemWidth = 80;
+	UI.MenuItemWidth = 60;
 	
 	UI.DrawColor = BLUE;	//Drawing color
 	UI.FillColor = GREEN;	//Filling color
@@ -100,6 +100,8 @@ ActionType GUI::MapInputToActionType() const
 			case ITM_CHNG_DRAW_COLOR: return CHNG_DRAW_CLR;
 			case ITM_SAVE: return SAVE;
 			case ITM_LOAD: return LOAD;
+			case ITM_PLAY:return ACTION_TO_PLAY;
+			case ITM_RESIZE:return RESIZE;
 			case ITM_EXIT: return EXIT;	
 				
 			default: return EMPTY;	//A click on empty place in desgin toolbar
@@ -149,13 +151,50 @@ ActionType GUI::MapInputToActionType() const
 		//[3] User clicks on the status bar
 		return STATUS;
 	}
-	else	//GUI is in PLAY mode
+	else if (UI.InterfaceMode == MODE_PLAY)	//GUI is in PLAY mode
 	{
-		///TODO:
-		//perform checks similar to Draw mode checks above
-		//and return the correspoding action
-		return TO_PLAY;	//just for now. This should be updated
-	}	
+		if (y >= 0 && y < UI.ToolBarHeight)
+		{
+			int ClickedItemOrder = (x / UI.MenuItemWidth);
+			switch (ClickedItemOrder)
+			{
+			case PLAY_TYPE: return ACTION_PLAY_TYPE;
+			case PLAY_FILL: return ACTION_PLAY_FILL;
+			case PLAY_TYPEFILL: return ACTION_PLAY_TYPEFILL;
+			case PLAY_RESET: return ACTION_PLAY_RESET;
+			case PLAY_BACK: return ACTION_TO_DRAW;
+			default: return EMPTY;	//A click on empty place in desgin toolbar
+			}
+		}
+		//[2] User clicks on the drawing area
+		if (y >= UI.ToolBarHeight && y < UI.height - UI.StatusBarHeight)
+		{
+			return DRAWING_AREA;
+		}
+		//[3] User clicks on the status bar
+		return STATUS;
+		//return TO_PLAY;	//just for now. This should be updated
+	}
+	else if (UI.InterfaceMode == MODE_SIZE)
+	{
+		//[1] If user clicks on the Toolbar
+		if (y >= 0 && y < UI.ToolBarHeight)
+		{
+			//Check whick Menu item was clicked
+			//==> This assumes that menu items are lined up horizontally <==
+			int ClickedItemOrder = (x / UI.MenuItemWidth);
+			//Divide x coord of the point clicked by the menu item width (int division)
+			//If division result is 0 ==> first item is clicked, if 1 ==> 2nd item and so on
+			switch (ClickedItemOrder)
+			{
+			case ITM_HALF: return HALF;
+			case ITM_QUARTER: return QUARTER;
+			case ITM_DOUBLE:   return DOUBLE1;
+			case ITM_QUADRUPLE: return QUADRUPLE;
+			case ITM_BACK2:  return BACK2;
+			}
+		}
+	}
 
 }
 //======================================================================================//
@@ -208,9 +247,11 @@ void GUI::CreateDrawToolBar() const
 	MenuItemImages[ITM_DELETE] = "images\\MenuItems\\Delete.jpg";
 	MenuItemImages[ITM_BG_COLOR_CHANGE] = "images\\MenuItems\\BGC.jpg";
 	MenuItemImages[ITM_CHNG_DRAW_COLOR] = "images\\MenuItems\\DrawColorIcon.jpg";
-	MenuItemImages[ITM_FILL_COLOR] = "images\\MenuItems\\Fill.jpg";
+	MenuItemImages[ITM_FILL_COLOR] = "images\\MenuItems\\FillColor.jpg";
+	MenuItemImages[ITM_PLAY] = "images\\MenuItems\\index.jpg";
 	MenuItemImages[ITM_SAVE] = "images\\MenuItems\\Save.jpg";
 	MenuItemImages[ITM_LOAD] = "images\\MenuItems\\load.jpg";
+	MenuItemImages[ITM_RESIZE] = "images\\MenuItems\\Resize.jpg";
 	MenuItemImages[ITM_EXIT] = "images\\MenuItems\\Menu_Exit.jpg";
 
 	//TODO: Prepare images for each menu item and add it to the list
@@ -228,10 +269,28 @@ void GUI::CreateDrawToolBar() const
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 
+
+//////////////////////////////////////////////////////////////////////////////////////////
 void GUI::CreatePlayToolBar() const
 {
+	
+	ClearToolBarArea();
 	UI.InterfaceMode = MODE_PLAY;
-	///TODO: write code to create Play mode menu
+	string PlayMenuImages[PLAY_ITM_COUNT];
+	PlayMenuImages[PLAY_TYPE] = "images\\MenuItems\\type.jpg";
+	PlayMenuImages[PLAY_FILL] = "images\\MenuItems\\fill.jpg";
+	PlayMenuImages[PLAY_TYPEFILL] = "images\\MenuItems\\typeandfill.jpg";
+	PlayMenuImages[PLAY_RESET] = "images\\MenuItems\\newgame.jpg";
+	PlayMenuImages[PLAY_BACK] = "images\\MenuItems\\back.jpg";
+
+	//TODO: Prepare images for each menu item and add it to the list
+	//Draw menu item one image at a time
+	for (int i = 0; i < PLAY_ITM_COUNT; i++)
+		pWind->DrawImage(PlayMenuImages[i], i * UI.MenuItemWidth, 0, UI.MenuItemWidth, UI.ToolBarHeight);
+
+	//Draw a line under the toolbar
+	pWind->SetPen(RED, 3);
+	pWind->DrawLine(0, UI.ToolBarHeight, UI.width, UI.ToolBarHeight);
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 void GUI::CreateColorBar() const
@@ -260,6 +319,29 @@ void GUI::CreateColorBar() const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+void GUI::CreateResizeToolBar() const
+{
+
+	UI.InterfaceMode = MODE_SIZE;
+
+	string MenuItemImages[SIZE_ITM_COUNT];
+	MenuItemImages[ITM_HALF] = "images\\MenuItems\\Halfx.jpg";
+	MenuItemImages[ITM_QUARTER] = "images\\MenuItems\\QX.jpg";
+	MenuItemImages[ITM_DOUBLE] = "images\\MenuItems\\X2.jpg";
+	MenuItemImages[ITM_QUADRUPLE] = "images\\MenuItems\\X4.jpg";
+	MenuItemImages[ITM_BACK2] = "images\\MenuItems\\BackToDraw.jpg";
+
+	for (int i = 0; i < SIZE_ITM_COUNT; i++)
+		for (int i = 0; i < SIZE_ITM_COUNT; i++)
+			pWind->DrawImage(MenuItemImages[i], i * UI.MenuItemWidth, 0, UI.MenuItemWidth, UI.ToolBarHeight);
+
+	//Draw a line under the toolbar
+	pWind->SetPen(CORNFLOWERBLUE, 3);
+	pWind->DrawLine(0, UI.ToolBarHeight, UI.width, UI.ToolBarHeight);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GUI::ClearDrawArea() const
 {
@@ -269,6 +351,14 @@ void GUI::ClearDrawArea() const
 	
 }
 //////////////////////////////////////////////////////////////////////////////////////////
+void GUI::ClearToolBarArea() const
+{
+	pWind->SetPen(WHITE, 1);
+	pWind->SetBrush(WHITE);
+	pWind->DrawRectangle(0, 0, UI.width, UI.ToolBarHeight);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 void GUI::PrintMessage(string msg) const	//Prints a message on status bar
 {
@@ -307,13 +397,20 @@ void GUI::setCrntDrawColor(color c) {
 }
 bool GUI::getIsFilled() const {
 	return UI.isFilled;
+}////////////////////////////////////////////////////////////////////////////////////////////
+void GUI::getPointInsideDrawArea(int& x, int& y)
+{
+	GetPointClicked(x, y);
+	while ((y < UI.StatusBarHeight || y > UI.height - UI.StatusBarHeight))
+	{
+		PrintMessage("Please, Choose a valid Point");
+		GetPointClicked(x, y);
+	}
 }
 //======================================================================================//
 //								Figures Drawing Functions								//
 //======================================================================================//
 
-
-	//             Center Drawing Function
 
 void GUI::DrawCircle(Point P1, int _radius, GfxInfo RectGfxInfo, bool selected) const
 {
@@ -361,8 +458,6 @@ void GUI::DrawSquare(Point P1, int length, GfxInfo RectGfxInfo, bool selected) c
 
 	
 	pWind->DrawRectangle(P1.x, P1.y, P1.x +length, P1.y+length, style);
-	//pWind->DrawLine(P1.x, P1.y, P1.x + length, P1.y + length, style);
-
 }
 
 
@@ -445,9 +540,28 @@ void GUI::DrawHexagon(Point P1, Point P2, GfxInfo HexGfxInfo, bool selected) con
 	pWind->DrawPolygon(arrx, arry, 6, style);
 
 }
+//////////////////////////////////////////////////////////////////////////////////////
+string GUI::GetString(GUI* pO) const
+{
+	string Label;
+	char Key;
+	while (1)
+	{
+		pWind->WaitKeyPress(Key);
+		if (Key == 27)	//ESCAPE key is pressed
+			return "";	//returns nothing as user has cancelled label
+		if (Key == 13)	//ENTER key is pressed
+			return Label;
+		if (Key == 8)	//BackSpace is pressed
+			Label.size() > 0 ? Label.resize(Label.size() - 1) : Label.resize(0);
+		else
+			Label += Key;
+		if (pO)
+			pO->PrintMessage(Label);
+	}
+}
 //////////////////////////////////////////////////////////////////////////////////////////
 GUI::~GUI()
 {
 	delete pWind;
 }
-

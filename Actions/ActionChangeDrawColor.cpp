@@ -7,6 +7,7 @@ ActionChangeDrawColor::ActionChangeDrawColor(ApplicationManager* pApp) :Action(p
 
 void ActionChangeDrawColor::Execute() {
 	//Get a Pointer to the Input / Output Interfaces
+	
 	GUI* pGUI = pManager->GetGUI();
 	pGUI->PrintMessage("Choose Drawing Color Color");
 	UI.InterfaceMode = MODE_COLOR;
@@ -28,5 +29,5 @@ void ActionChangeDrawColor::Execute() {
 			pGUI->setCrntDrawColor(DrawClr);
 		}
 	}
-
+	pGUI->CreateDrawToolBar();
 }
