@@ -89,6 +89,7 @@ public:
 	int ApplicationManager::countByType(string type);
 	int ApplicationManager::countByColor(string color);
 	string ApplicationManager::getRandomExistingType();
+	CFigure* DrawnFigs(int i) const;
 	int ApplicationManager::getFigCount() const;
 	string ApplicationManager::getRandomExistingColor();
 	void ApplicationManager::singleFigureDeleted();

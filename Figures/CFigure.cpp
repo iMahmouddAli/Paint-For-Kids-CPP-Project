@@ -2,10 +2,14 @@
 #include <ostream>
 #include <iostream>
 CFigure::CFigure()
-{}
+{
+    Selected = false;
+    PlayHidden = false;
+}
 CFigure::CFigure(GfxInfo FigureGfxInfo)
 { 
 	FigGfxInfo = FigureGfxInfo;	//Default status is non-filled.
+    PlayHidden = false;
 	Selected = false;
     ID = 0;
 }
@@ -87,5 +91,20 @@ string CFigure::ColorToString(color c)
 color CFigure::getFillColor()
 {
     return FigGfxInfo.isFilled ? FigGfxInfo.FillClr : NULL;
+}
+
+void CFigure::Hide()
+{
+    PlayHidden = true;
+}
+//Shows Figures
+void CFigure::Show()
+{
+    PlayHidden = false;
+}
+//Gives Current Status
+bool CFigure::HiddenStatus() const
+{
+    return PlayHidden;
 }
 

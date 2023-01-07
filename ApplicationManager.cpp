@@ -220,11 +220,12 @@ CFigure *ApplicationManager::GetFigure(int x, int y) const
 //Draw all figures on the user interface
 void ApplicationManager::UpdateInterface() const
 {	
-	for(int i=0; i<FigCount; i++)
-		FigList[i]->DrawMe(pGUI);		//Call Draw function (virtual member fn)
+	pGUI->ClearDrawArea();
+	for (int i = 0; i < FigCount; i++) {
+		if (FigList[i]->HiddenStatus() == false)
+			FigList[i]->DrawMe(pGUI);		//Call Draw function (virtual member fn)
 
-	pGUI->CreateColorBar();
-	pGUI->CreateStatusBar();
+	}
 }
 ////////////////////////////////////////////////////////////////////////////////////
 //Return a pointer to the interface
@@ -542,7 +543,10 @@ int ApplicationManager::countByTypeAndColor(string type, string color) {
 }
 
 
-
+CFigure* ApplicationManager::DrawnFigs(int i) const
+{
+	return FigList[i];
+}
 
 int ApplicationManager::getFigCount() const
 {

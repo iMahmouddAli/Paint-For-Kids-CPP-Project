@@ -11,7 +11,7 @@ protected:
 	int ID;		//Each figure has an ID
 	bool Selected;	//true if the figure is selected.
 	GfxInfo FigGfxInfo;	//Figure graphis info
-	
+	bool PlayHidden;
 	/// Add more parameters if needed.
 
 public:
@@ -19,7 +19,9 @@ public:
 	CFigure(GfxInfo FigureGfxInfo);
 	void SetSelected(bool );	//select/unselect the figure
 	bool IsSelected() const;	//check whether fig is selected
-
+	void Hide();
+	void Show();
+	bool HiddenStatus() const;
 	virtual void DrawMe(GUI*) const  = 0 ;		//Draw the figure
 	
 	void ChngDrawClr(color Dclr);	//changes the figure's drawing color
